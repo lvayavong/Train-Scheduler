@@ -1,4 +1,3 @@
-
 var config = {
   apiKey: "AIzaSyBB37Qku9-DET8z9CO465CDrXlc7wYUm40",
   authDomain: "train-scheduler-e89b4.firebaseapp.com",
@@ -14,39 +13,39 @@ var database = firebase.database();
 database.ref().once("value", function(snapshot) {
   console.log(snapshot.val());
 
-Object.keys(snapshot.val()).forEach(function(train){
-  console.log(snapshot.val()[train].destination,
-              snapshot.val()[train].name,
-              snapshot.val()[train].frequency,
-              snapshot.val()[train].start);
-var destination = snapshot.val()[train].destination
-var name = snapshot.val()[train].name
-var frequency = snapshot.val()[train].frequency
-var start = snapshot.val()[train].start
+  Object.keys(snapshot.val()).forEach(function(train) {
+    console.log(snapshot.val()[train].destination,
+      snapshot.val()[train].name,
+      snapshot.val()[train].frequency,
+      snapshot.val()[train].start);
+    var destination = snapshot.val()[train].destination
+    var name = snapshot.val()[train].name
+    var frequency = snapshot.val()[train].frequency
+    var start = snapshot.val()[train].start
 
-var firstTimeConverted = moment(parseInt(start,10)).subtract(1, "days");
-console.log(firstTimeConverted.format("hh:mm"));
+    var firstTimeConverted = moment(parseInt(start, 10)).subtract(1, "days");
+    console.log(firstTimeConverted.format("hh:mm"));
 
-var currentTime = moment();
-console.log("CURRENT TIME: " + currentTime.format("hh:mm"));
+    var currentTime = moment();
+    console.log("CURRENT TIME: " + currentTime.format("hh:mm"));
 
- var futureTime = firstTimeConverted.add(freq * 60 * 25, "minutes");
-console.log(futureTime.format("hh:mm"));
+    var futureTime = firstTimeConverted.add(freq * 60 * 25, "minutes");
+    console.log(futureTime.format("hh:mm"));
 
- var diffTime = moment().diff(futureTime, "minutes");
- console.log("DIFFERENCE IN TIME: " + diffTime);
+    var diffTime = moment().diff(futureTime, "minutes");
+    console.log("DIFFERENCE IN TIME: " + diffTime);
 
- var tMinutesTillTrain = diffTime % frequency;
- console.log(tMinutesTillTrain);
+    var tMinutesTillTrain = diffTime % frequency;
+    console.log(tMinutesTillTrain);
 
- var nextTrain = moment().add(tMinutesTillTrain, "minutes");
- console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
-var nextTrainPretty = moment.unix(nextTrain).format("hh:mm a");
+    var nextTrainPretty = moment.unix(nextTrain).format("hh:mm a");
 
- $("#train-table > tbody").append("<tr><td>" + name + "</td><td>" + destination + "</td><td>" +
-     frequency + "</td><td>" + nextTrainPretty + "</td><td>" + tMinutesTillTrain + "</td></tr>");
-})
+    $("#train-table > tbody").append("<tr><td>" + name + "</td><td>" + destination + "</td><td>" +
+      frequency + "</td><td>" + nextTrainPretty + "</td><td>" + tMinutesTillTrain + "</td></tr>");
+  })
 
 })
 
